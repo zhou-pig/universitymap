@@ -1,0 +1,109 @@
+.header {
+	width: 100%;
+	height: 100px;
+	background-color: lightgray;
+}
+
+.bodys {
+	width: 100%;
+	height: 1400px;
+}
+
+.footer {
+	width: 100%;
+	height: 200px;
+	background-color: red;
+}
+
+.logo1 {
+	float: left;  
+	width: 130px;
+	margin-left: 10px;
+	height: 130px;
+	margin-top: 10px;
+}
+
+.img1 {
+	width: 80px;
+	height: 80px;
+	background-color: red;
+	border-radius: 50%;
+    /* background-image: url(https://img0.baidu.com/it/u=3747594822,2760880229&fm=253&fmt=auto&app=138&f=JPEG?w=100&h=100); */
+}
+
+.function1 li{
+	display: block;
+	float: left;
+	margin-right: 10px;
+	font-size: 20px;
+	font-weight: bold;
+	color: black;
+}
+
+.function1 {
+	margin-top: 20px;
+	float: left;
+	width: 400px;
+	height: 100px;
+}
+
+.search1 {
+	float: left;
+	width: 400px;
+	height: 140px;
+	margin-top: 25px;
+	margin-left: 20px;
+}
+
+.input1 {
+	float: left;
+	width: 80%;
+	height: 130px;
+}
+
+.button1 {
+	float: left;
+	width: 20%;
+	height: 130px;
+}
+
+.input1 input {
+	width: 200px;
+	height: 40px;
+	border: 1px solid aqua;
+	border-radius: 20px;
+}
+.button1 button {
+	width: 100px;
+	height: 40px;
+	border-radius: 20px;
+}
+
+.bodys>div {
+	width: 900px;
+	height: 1390px;
+	/* background-color: #1592EF; */
+	padding-left: 30px;
+}
+
+.bodys li {
+	display: block;
+}
+
+.bodys li>div {
+	width: 400px;
+	height: 200px;
+	/* background-color: red; */
+	margin-bottom: 9px;
+}
+
+.bodys2 {
+	width: 1400px;
+	height: 900px;
+	background-color: red;
+	margin-bottom: 10px;
+	margin-left: 100px;
+}
+
+
+

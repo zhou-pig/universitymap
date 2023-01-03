@@ -1,0 +1,29 @@
+spring:
+  #配置数据源信息
+  datasource:
+    #配置数据源类型
+    type: com.zaxxer.hikari.HikariDataSource
+    #配置连接数据库的各个信息
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://121.43.53.31:3306/mapdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: mapdb
+    password: 123456
+  thymeleaf:
+    content-type: text/html
+    cache: false
+    mode: LEGACYHTML5
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  #配置类型别名所对应的包
+  type-aliases-package: com.train.university.entity
+
+server:
+  port: 8080
+
+
+loginurl: http://localhost:8080/login
+chormpath: C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8" />
+<title>登录</title>
+<link rel="stylesheet" type="text/css" href="css/login.css" />
+<script src="js/jquery-3.6.3.min.js"></script>
+<!--<link rel="stylesheet" href="css/bootstrap.css">-->
+</head>
+
+<body>
+<img class="bgone" src="img/1.jpg" />
+<img class="pic" src="img/a.png" />
+<div class="table">
+	<div class="wel">地图系统后台登录</div>
+	<div class="wel1">MAP SYSTEM ADMIN</div>
+	<div class="user">
+		<div id="yonghu1"  style=""><img src="img/yhm.png" /></div>
+		<input type="text" class="account" name="" placeholder="用户名" />
+	</div>
+	<div class="password">
+		<div id="yonghu2"><img src="img/mm.png" /></div>
+		<input type="password" class="password1" name="密码" placeholder="●●●●●●"/>
+	</div>
+	<input onclick="loginFn()" class="btn" type="button" name="登录" value="登录" />
+</div>
+<script>
+/*
+   通过Jquery获取输入框数据传递给后台
+ */
+
+function loginFn() {
+   var account = $(".account").val();
+	var password = $(".password1").val();
+	$.ajax({
+		url:'/check',
+		type:'post',
+		data:{account:account,password:password},
+		dataType:'json',
+		success:function (data) {
+            // console.log("====================");
+            // console.log(data)
+			if (data == 1){
+				//登录成功就跳转到主页面
+				location.href='/map1';
+			}else {
+				alert("登录失败！");
+			}
+		}
+	});
+}
+</script>
+</body>
+</html>
