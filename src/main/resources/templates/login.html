@@ -26,6 +26,7 @@
 	<input onclick="loginFn()" class="btn" type="button" name="登录" value="登录" />
 </div>
 <script>
+
 /*
    通过Jquery获取输入框数据传递给后台
  */
@@ -43,7 +44,7 @@ function loginFn() {
             // console.log(data)
 			if (data == 1){
 				//登录成功就跳转到主页面
-				location.href='/map1';
+				location.href='/index';
 			}else {
 				alert("登录失败！");
 			}

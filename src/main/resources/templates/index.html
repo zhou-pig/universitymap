@@ -5,6 +5,13 @@
 		<title></title>
 		<link rel="stylesheet" href="css/index.css" />
 		<link rel="stylesheet" href="css/bootstrap.css" />
+		<script type="text/javascript" src="js/jquery-3.6.3.min.js"></script>
+		<script type="text/javascript">
+			window._AMapSecurityConfig = {
+				securityJsCode:'e368b9175276cadc71536d5a984f7bf5',
+			}
+		</script>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=666083b22d4375d393cc676393248914"></script>
 	</head>
 	<body>
 		<!-- 地图找房项目主页面 -->
@@ -13,29 +20,31 @@
 		<div class="header">
 			<!-- logo信息 -->
 			<div class="logo1">
-				<div class="img1"></div>
+<!--				<div class="img1"></div>-->
+				成都高校查询系统
 			</div>
 			<!-- 功能选项卡 -->
 			<div class="function1">
-				<div>
-					<ul>
-						<li>
-							<a href="/map1">地图找房</a>
-						</li>
-						<li>功能二</li>
-						<li>功能三</li>
-						<li>功能四</li>
-					</ul>
-				</div>
+				<a href="/map1">去列表查找高校</a>
+<!--				<div>-->
+<!--					<ul>-->
+<!--						<li>-->
+<!--							<a href="/map1">去列表查找高校</a>-->
+<!--						</li>-->
+<!--						<li>功能二</li>-->
+<!--						<li>功能三</li>-->
+<!--						<li>功能四</li>-->
+<!--					</ul>-->
+<!--				</div>-->
 			</div>
 			<!-- 搜索框 -->
 			<div class="search1">
 				<div class="input1">
-					<input type="text" placeholder="请输入关键字"/>
+					<input type="text" placeholder="            搜索高校" id="input2"/>
 				</div>
-				<!-- <div class="button1">
-				   <button>搜索</button>
-				</div> -->
+				 <div class="button1">
+				   <button onclick="SearchFn()">搜索</button>
+				</div>
 			</div>
 			<!-- 其它信息显示区域 -->
 			<div class="others1">
@@ -46,90 +55,8 @@
 		
 		<!-- 中间内容 -->
 		<div class="bodys">
-			<div>
-				<ul>
-					<li>
-						<div>
-							<span>
-								XXXX
-							</span>
-							<div>
-								<img src="https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00243-434.jpg" width="200px" height="">
-							</div>
-						</div>
-					</li>
-					<li>
-						<div>
-							<span>
-								XXXX
-							</span>
-							<div>
-								<img src="https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00243-434.jpg" width="200px" height="">
-							</div>
-						</div>
-					</li>
-					<li>
-						<div>
-							<span>
-								XXXX
-							</span>
-							<div>
-								<img src="https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00243-434.jpg" width="200px" height="">
-							</div>
-						</div>
-					</li>
-					<li>
-						<div>
-							<span>
-								XXXX
-							</span>
-							<div>
-								<img src="https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00243-434.jpg" width="200px" height="">
-							</div>
-						</div>
-					</li>
-					<li>
-						<div>
-							<span>
-								XXXX
-							</span>
-							<div>
-								<img src="https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00243-434.jpg" width="200px" height="">
-							</div>
-						</div>
-					</li>
-					<li>
-						<div>
-							<span>
-								XXXX
-							</span>
-							<div>
-								<img src="https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00243-434.jpg" width="200px" height="">
-							</div>
-						</div>
-					</li>
-				</ul>
-				<div>
-					<nav aria-label="Page navigation">
-					  <ul class="pagination">
-					    <li>
-					      <a href="#" aria-label="Previous">
-					        <span aria-hidden="true">&laquo;</span>
-					      </a>
-					    </li>
-					    <li><a href="#">1</a></li>
-					    <li><a href="#">2</a></li>
-					    <li><a href="#">3</a></li>
-					    <li><a href="#">4</a></li>
-					    <li><a href="#">5</a></li>
-					    <li>
-					      <a href="#" aria-label="Next">
-					        <span aria-hidden="true">&raquo;</span>
-					      </a>
-					    </li>
-					  </ul>
-					</nav>
-				</div>
+			<div id="map-container">
+
 			</div>
 		</div>
 		
@@ -137,5 +64,98 @@
 		<div class="footer">
 			
 		</div>
+	<script>
+		var lnglat ;
+
+		var map = new AMap.Map('map-container',{
+			zoom:11,
+		});
+		var address;
+
+
+		function SearchFn(){
+			address = $("#input2").val()
+			// console.log("-------------")
+			// console.log(address)
+			AMap.plugin('AMap.Geocoder', function() {
+				var geocoder = new AMap.Geocoder({
+					// city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
+					city: '全国'
+				})
+
+				geocoder.getLocation(address, function(status, result) {
+					if (status === 'complete' && result.info === 'OK') {
+						// result中对应详细地理坐标信息
+						console.log("00000000000000000000")
+						console.log(result)
+
+						var positionLnglat = [result.geocodes[0].location.lng,result.geocodes[0].location.lat]
+						// console.log("(((((((((((((((")
+						// console.log(positionLnglat)
+						var marker = new AMap.Marker({
+							position:positionLnglat
+						})
+						map.setCenter(positionLnglat)
+						map.setZoom(16)
+						map.add(marker)
+					}
+				})
+			})
+
+		}
+		//插件的异步引入
+		AMap.plugin('AMap.Geolocation', function() {
+			var geolocation = new AMap.Geolocation({
+				// 是否使用高精度定位，默认：true
+				enableHighAccuracy: true,
+				// 设置定位超时时间，默认：无穷大
+				timeout: 10000,
+				// 定位按钮的停靠位置的偏移量
+				offset: [10, 20],
+				//  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+				zoomToAccuracy: true,
+				//  定位按钮的排放位置,  RB表示右下
+				position: 'RB'
+			})
+
+			geolocation.getCurrentPosition(function(status,result){
+				if(status=='complete'){
+					console.log("++++++++++++++")
+					console.log(result)
+					lnglat=[result.position.lng,result.position.lat]
+					map.setCenter(lnglat)
+				}else{
+				}
+			});
+		})
+
+
+		AMap.plugin([
+			'AMap.ToolBar',
+			'AMap.Scale',
+			'AMap.OverView',
+			'AMap.MapType',
+			'AMap.Geolocation',
+		], function() {
+			// 在图面添加工具条控件，工具条控件集成了缩放、平移、定位等功能按钮在内的组合控件
+			map.addControl(new AMap.ToolBar());
+
+			// 在图面添加比例尺控件，展示地图在当前层级和纬度下的比例尺
+			map.addControl(new AMap.Scale());
+
+			// 在图面添加鹰眼控件，在地图右下角显示地图的缩略图
+			// map.addControl(new AMap.OverView({
+			// 	isOpen: true
+			// }));
+
+			// 在图面添加类别切换控件，实现默认图层与卫星图、实施交通图层之间切换的控制
+			map.addControl(new AMap.MapType());
+
+			// 在图面添加定位控件，用来获取和展示用户主机所在的经纬度位置
+			map.addControl(new AMap.Geolocation());
+		});
+
+
+	</script>
 	</body>
 </html>

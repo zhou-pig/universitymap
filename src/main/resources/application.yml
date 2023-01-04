@@ -5,7 +5,8 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     #配置连接数据库的各个信息
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://121.43.53.31:3306/mapdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+#    url: jdbc:mysql://121.43.53.31:3306/mapdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://121.43.53.31:3306/mapdb?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
     username: mapdb
     password: 123456
   thymeleaf:
@@ -26,4 +27,5 @@ server:
 
 loginurl: http://localhost:8080/login
 chormpath: C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
+edgepath: C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe
 
