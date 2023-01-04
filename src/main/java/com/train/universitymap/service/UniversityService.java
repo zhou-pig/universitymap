@@ -13,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.train.universitymap.entity.University;
 
 public interface UniversityService extends IService<University> {
-    Page<University> queryUniversityByName(String name);
+    Page<University> queryUniversityByName(Integer pageNumber,String name);
+
+    University queryUniversityById(Integer id);
 }

@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script src="js/jquery-3.6.3.min.js"></script>
+  <style>
+    .div1 {
+      /*分层*/
+      z-index: 1;
+    }
+    .div2 {
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: black;
+      /*背景透明度设置*/
+      opacity: 0.3;
+      /*一开始将div2遮罩层隐藏起来*/
+      display: none;
+    }
+
+    .div3 {
+      z-index: 3;
+      width: 600px;
+      height: 500px;
+      position: absolute;
+      left: 500px;
+      top: 130px;
+      /*盒子模型的边框设置*/
+      /*border: 1px solid black;*/
+      /*一开始将div3模态框隐藏起来*/
+      display: none;
+    }
+
+    .modal-body-div {
+      height: 380px;
+    }
+  </style>
+  <script type="text/javascript">
+    window._AMapSecurityConfig = {
+      securityJsCode: '710ec15b348df7ceadfb7fca98a931ac',
+    }
+  </script>
+  <script type="text/javascript"
+          src="https://webapi.amap.com/maps?v=2.0&key=f62499f442ba7102db5c6156fd937004&plugin=AMap.Geolocation,AMap.Transfer">
+  </script>
+</head>
+<body>
+
+<!--页面的第一层-->
+<div class="div1">
+  <!--将数据库中scenic_spot表中的数据给渲染到表格里面-->
+  <!--这里我们可以借助bootstrap3实现对标签样式的控制-->
+  <table class="table table-striped table-hover">
+    <!--    表头-->
+    <thead>
+    <th>序号</th>
+    <th>名称</th>
+    <th>层次</th>
+    <th>地址</th>
+    <th>操作</th>
+    </thead>
+    <tbody class="table-content">
+    </tbody>
+  </table>
+  <!--分页-->
+  <center>
+    <nav aria-label="Page navigation">
+      <ul class="pagination ination-data">
+      </ul>
+    </nav>
+  </center>
+
+</div>
+
+<!--页面第二层：蒙层/遮罩层-->
+<div class="div2"></div>
+
+<!--页面的第三层模态框-->
+<div class="div3 modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeFn()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Modal title</h4>
+  </div>
+
+  <div class="modal-body modal-body-div">
+    <div>
+      <span style="font-size: 18px;color: green;font-weight: bold" >高校：</span><span style="font-size: 20px;font-weight: bold" id="university_name"></span>
+    </div>
+    <div>
+      <span style="font-size: 18px;color: green;font-weight: bold">层次：</span><span style="font-size: 20px;font-weight: bold" id="university_level"></span>
+    </div>
+    <div>
+      <span style="font-size: 18px;color: green;font-weight: bold" >地址：</span><span style="font-size: 18px;font-weight: bold" id="university_address"></span>
+    </div>
+    <div>
+      <span style="font-size: 18px;color: green;font-weight: bold" >简介：</span><span style="font-size: 18px;font-weight: bold" id="university_introduction"></span>
+    </div>
+    <div>
+      <!--            制作地图容器-->
+      <div id="map-container" style="width: 560px;height: 240px;">
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="closeFn()">关闭</button>
+    <!--        <button type="button" class="btn btn-primary">Save changes</button>-->
+  </div>
+</div>
+<script>
+  //使用ready函数
+  $(function () {
+    console.log("finish")
+    pageData(1)
+  });
+
+  //拿取数据实现分页
+  function pageData(page) {
+    $.ajax({
+      url:'/query',
+      type:'get',
+      data:{pageNumber:page,name:""},
+      dataType:'json',
+      success:function (data) {
+        console.log(data)
+        tableDataShowFn(data.records)
+        pagInationFn(data)
+      }
+    });
+  }
+
+  //用于将数据给渲染到表格中
+  function tableDataShowFn(data) {
+    /*
+       在js中实现数据渲染到html字符串中
+     */
+    console.log(data)
+    var html = '';   //html标签字符串
+    for (var i = 0; i < data.length; i++) {
+      html += '  <tr>\n' +
+              '           <td>'+(i+1)+'</td>\n' +
+              '           <td>'+data[i].name+'</td>\n' +
+              '           <td>'+data[i].level+'</td>\n' +
+              '           <td>'+data[i].address+'</td>\n' +
+              '           <td><button onclick="infoClickFn('+data[i].id+')">详情</button></td>\n' +
+              '       </tr>'
+    }
+    $(".table-content").html(html);
+  }
+
+  //用于将数据渲染到分页标签里面
+  function pagInationFn(data) {
+    console.log("=======================");
+    console.log(data);
+    var current=data.current;
+    //下一页但是页码
+    var nextPage = current+1;
+    //上一页页码
+    var prePage = current-1;
+    //页码数
+    var pages = data.pages;
+    //是否有下一页
+    var hasNextPage = current<pages;
+    //是否有上一页
+    var hasPreviousPage = current>1;
+    //-----------------------------------------
+    //定义html标签字符串-----用于将数据渲染到分页里面
+    var html = '';
+    //1、渲染上一页
+    /*
+         先判断一下是否有上一页，如果有则可以跳转
+         否则就禁止跳转
+     */
+    if (hasPreviousPage){
+      html += ' <li>\n' +
+              '            <a onclick="pageData('+prePage+')" href="#" aria-label="Previous">\n' +
+              '                <span aria-hidden="true">&laquo;</span>\n' +
+              '            </a>\n' +
+              '        </li>'
+    }else {
+      html += ' <li>\n' +
+              '            <a disabled="disabled" href="#" aria-label="Previous">\n' +
+              '                <span aria-hidden="true">&laquo;</span>\n' +
+              '            </a>\n' +
+              '        </li>'
+    }
+    //2、渲染中间页码
+    for (var i=1;i<=pages;i++){
+      html += '<li><a onclick="pageData('+i+')" href="#">'+i+'</a></li>'
+    }
+    //3、渲染下一页
+    /*
+         先判断一下是否有下一页，如果有则可以跳转
+         否则就禁止跳转
+     */
+    if (hasNextPage){
+      html += '<li>\n' +
+              '            <a onclick="pageData('+nextPage+')" href="#" aria-label="Next">\n' +
+              '                <span aria-hidden="true">&raquo;</span>\n' +
+              '            </a>\n' +
+              '        </li>'
+    }else {
+      html += '<li>\n' +
+              '            <a href="#" disabled="disabled" aria-label="Next">\n' +
+              '                <span aria-hidden="true">&raquo;</span>\n' +
+              '            </a>\n' +
+              '        </li>'
+    }
+    $(".ination-data").html(html)
+  }
+
+  //表格详情按钮点击事件函数
+  function infoClickFn(id) {
+    // alert(id)
+    /*
+        我们这里拿到id以后就可以根据id查询出该条数据的信息
+        问题：为什么要再请求查询数据
+           答：为了保证数据的准确
+        我们接下来就可以将查询到的数据进行其它业务开啊发
+     */
+    /*
+         任务：
+            当用户点击详情按钮的时候就把当前数据的id拿到
+            并根据从数据库中拿取数据
+            最后将数据显示到模态框里面
+     */
+    //1、弹出模态框
+    $(".div2").show(); //用于将div2显示出来
+    $(".div3").show(); //用于将div3显示出来
+    //2、将数据给填充到模态框中
+    //通过ajax向后台发起请求拿取数据
+    $.ajax({
+      url: '/query1',
+      type: 'get',
+      data: {id:id},
+      dataType: 'json',
+      success:function (data) {
+        console.log("/query1  get");
+        console.log(data)
+        /*
+            我们拿取到数据以后就可以根据业务去渲染数据
+        */
+        $(".modal-title").text(data.name);
+        $("#university_name").text(data.name);
+        $("#university_level").text(data.level);
+        $("#university_address").text(data.address);
+        $("#university_introduction").text(data.introduction);
+      }
+    })
+  }
+
+  //将经纬度给编码成详细地址信息
+  function locationByCodeFn(lng,lat){
+    // console.log("----------------------");
+    //  console.log(lng,lat);
+    AMap.plugin('AMap.Geocoder', function() {
+      var geocoder = new AMap.Geocoder({
+        // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
+        city: '全国'
+      });
+      var lnglat = [lng,lat];
+      geocoder.getAddress(lnglat, function(status, result) {
+        if (status === 'complete' && result.info === 'OK') {
+          // result为对应的地理位置详细信息
+          console.log("-------------------------");
+          console.log(result);
+          var address = result.regeocode.formattedAddress;
+          var type = result.regeocode.addressComponent.buildingType;
+          $(".text2").text(address);
+          $(".text3").text(type);
+        }
+      });
+    });
+  }
+  /*
+      根据定位将路线给规划出来
+   */
+  function mapByPosition(lng,lat) {
+    var end = [lng*1,lat*1];
+    //用于将地图显示出来
+    var map = new AMap.Map('map-container',{zoom:11});
+    //开始定位，将用于的定位信息拿到
+    AMap.plugin(['AMap.Geolocation','AMap.Transfer'], function() {
+      var transOptions = {
+        city: '北京市', //公交城市
+        policy: AMap.TransferPolicy.LEAST_TRANSFER, //乘车策略
+        map:map,
+      };
+      var trans = new AMap.Transfer (transOptions); //构造公交换乘类
+      var geolocation = new AMap.Geolocation({
+        // 是否使用高精度定位，默认：true
+        enableHighAccuracy: true,
+        // 设置定位超时时间，默认：无穷大
+        timeout: 10000,
+        // 定位按钮的停靠位置的偏移量
+        offset: [10, 20],
+        //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+        zoomToAccuracy: true,
+        //  定位按钮的排放位置,  RB表示右下
+        position: 'RB'
+      });
+      geolocation.getCurrentPosition(function(status,result){
+        if(status=='complete'){
+          var start = [result.position.lng,result.position.lat];
+          console.log(start,end);
+          //根据起、终点坐标查询公交换乘路线
+          trans.search(start,end);
+        }
+      });
+
+    })
+  }
+
+  //关闭模态框点击事件
+  function closeFn() {
+    $(".div2").hide();
+    $(".div3").hide();
+  }
+</script>
+</body>
+</html>

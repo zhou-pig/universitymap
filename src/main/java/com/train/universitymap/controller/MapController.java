@@ -40,13 +40,22 @@ public class MapController {
     //返回地图页面
     @GetMapping("/map1")
     public String mapShow(){
-        return "map.html";
+        return "map2.html";
     }
 
     //查询高校
     @GetMapping("/query")
-    public Page<University> queryUniversityByName(String name){
-        return universityService.queryUniversityByName(name);
+    @ResponseBody
+    public Page<University> queryUniversityByName(Integer pageNumber,String name){
+        System.out.println("query,name="+name);
+        return universityService.queryUniversityByName(pageNumber,name);
+    }
+
+    //通过id查询高校信息
+    @GetMapping("/query1")
+    @ResponseBody
+    public University queryUniversityById(Integer id){
+        return universityService.queryUniversityById(id);
     }
 
 }
