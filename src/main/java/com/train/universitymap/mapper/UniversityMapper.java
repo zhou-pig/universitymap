@@ -10,6 +10,8 @@ package com.train.universitymap.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.train.universitymap.entity.University;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface UniversityMapper extends BaseMapper<University> {
 }
