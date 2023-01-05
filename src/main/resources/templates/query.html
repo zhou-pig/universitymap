@@ -55,10 +55,7 @@
         })
         //1.2 调用getCurrentPosition方法获得定位信息
         geolocation.getCurrentPosition(function (status, result) {
-            /*
-              status：定位是否成功，如果定位成功它的值便是complete，否则便是error
-              result：定位的具体
-           */
+
             if (status === 'complete') {
                 console.log("----------------")
                 console.log(result)
