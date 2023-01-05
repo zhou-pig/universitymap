@@ -78,7 +78,7 @@
                     //LEAST_TIME，LEAST_FEE, LEAST_DISTANCE,REAL_TRAFFIC
                     policy: AMap.TransferPolicy.LEAST_TRANSFER, //规划策略（按照最短时间、最短路线、交通拥挤）
                     map: map, //该配置项可以用于将规划的路线显示到对应的地图上
-                    city: '成都',
+                    city: '四川',
                     panel: "panel", //该配置项可以用于将路线规划结果自动显示到面板上，该配置项的值为：对应div盒子的id值
                 })
                 var startLngLat = [result.position.lng, result.position.lat]
@@ -99,7 +99,7 @@
             AMap.plugin('AMap.Geocoder', function() {
                 var geocoder = new AMap.Geocoder({
                     // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
-                    city: '成都'
+                    city: '四川'
                 })
                 geocoder.getLocation(result2, function(status, result) {
                     if (status === 'complete' && result.info === 'OK') {
