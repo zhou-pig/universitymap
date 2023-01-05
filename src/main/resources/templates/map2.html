@@ -53,31 +53,40 @@
   </script>
 </head>
 <body>
-<div class="header">
-  <!-- logo信息 -->
-  <div class="logo1">
-    <!--				<div class="img1"></div>-->
-    成都高校查询系统
-  </div>
-  <!-- 功能选项卡 -->
-  <div class="function1">
-    <a href="/index">去地图查找高校</a>
-  </div>
-  <!-- 搜索框 -->
-  <div class="search1">
-    <div class="input1">
-      <input type="text" placeholder="            输入高校名称" id="input2"/>
-    </div>
-    <div class="button1">
-      <button onclick="pageData(1)">搜索</button>
-    </div>
-  </div>
-  <!-- 其它信息显示区域 -->
-  <div class="others1">
+<!--<div class="header">-->
+<!--  &lt;!&ndash; logo信息 &ndash;&gt;-->
+<!--  <div class="logo1">-->
+<!--    &lt;!&ndash;				<div class="img1"></div>&ndash;&gt;-->
+<!--    成都高校查询系统-->
+<!--  </div>-->
+<!--  &lt;!&ndash; 功能选项卡 &ndash;&gt;-->
+<!--  <div class="function1">-->
+<!--    <a href="/index">去地图查找高校</a>-->
+<!--  </div>-->
+<!--  &lt;!&ndash; 搜索框 &ndash;&gt;-->
+<!--  <div class="search1">-->
+<!--    <div class="input1">-->
+<!--      <input type="text" placeholder="            输入高校名称" id="input2"/>-->
+<!--    </div>-->
+<!--    <div class="button1">-->
+<!--      <button onclick="pageData(1)">搜索</button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  &lt;!&ndash; 其它信息显示区域 &ndash;&gt;-->
+<!--  <div class="others1">-->
 
+<!--  </div>-->
+<!--</div>-->
+<nav class="navbar navbar-light " style="background-color: #ebefeb;height: 70px">
+  <a class="navbar-brand" style="font-family: STXingkai;font-size: 50px;">成都高校查询系统</a>
+  <div style="margin-left: 50%">
+    <a class="btn btn-info"  style="margin-left: 10%;margin-top: 10px;float: left" href="/index">去地图查找高校</a>
+    <form class="form-inline" style="float: left;margin-top: 10px;margin-left: 20px">
+      <input id="input2" class="form-control mr-sm-2" type="search" placeholder="查找学校" aria-label="Search" >
+      <button class="btn btn-success" onclick="SearchFn()" type="button">Search</button>
+    </form>
   </div>
-</div>
-
+</nav>
 <!--页面的第一层-->
 <div class="div1">
   <!--将数据库中scenic_spot表中的数据给渲染到表格里面-->

@@ -5,6 +5,8 @@
 		<title></title>
 		<link rel="stylesheet" href="css/index.css" />
 		<link rel="stylesheet" href="css/bootstrap.css" />
+		<style>
+	</style>
 		<script type="text/javascript" src="js/jquery-3.6.3.min.js"></script>
 		<script type="text/javascript">
 			window._AMapSecurityConfig = {
@@ -12,46 +14,56 @@
 			}
 		</script>
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=666083b22d4375d393cc676393248914"></script>
+
 	</head>
 	<body>
-		<!-- 地图找房项目主页面 -->
-		<!-- 我们可以在这个页面里面将房源数据展示出来 -->
-		<!-- 头部 -->
-		<div class="header">
-			<!-- logo信息 -->
-			<div class="logo1">
-<!--				<div class="img1"></div>-->
-				成都高校查询系统
-			</div>
-			<!-- 功能选项卡 -->
-			<div class="function1">
-				<a href="/map1">去列表查找高校</a>
-<!--				<div>-->
-<!--					<ul>-->
-<!--						<li>-->
-<!--							<a href="/map1">去列表查找高校</a>-->
-<!--						</li>-->
-<!--						<li>功能二</li>-->
-<!--						<li>功能三</li>-->
-<!--						<li>功能四</li>-->
-<!--					</ul>-->
+<!--		&lt;!&ndash; 地图找房项目主页面 &ndash;&gt;-->
+<!--		&lt;!&ndash; 我们可以在这个页面里面将房源数据展示出来 &ndash;&gt;-->
+<!--		&lt;!&ndash; 头部 &ndash;&gt;-->
+<!--		<div class="header">-->
+<!--			&lt;!&ndash; logo信息 &ndash;&gt;-->
+<!--			<div class="logo1">-->
+<!--&lt;!&ndash;				<div class="img1"></div>&ndash;&gt;-->
+<!--				成都高校查询系统-->
+<!--			</div>-->
+<!--			&lt;!&ndash; 功能选项卡 &ndash;&gt;-->
+<!--			<div class="function1">-->
+<!--				<a href="/map1">去列表查找高校</a>-->
+<!--&lt;!&ndash;				<div>&ndash;&gt;-->
+<!--&lt;!&ndash;					<ul>&ndash;&gt;-->
+<!--&lt;!&ndash;						<li>&ndash;&gt;-->
+<!--&lt;!&ndash;							<a href="/map1">去列表查找高校</a>&ndash;&gt;-->
+<!--&lt;!&ndash;						</li>&ndash;&gt;-->
+<!--&lt;!&ndash;						<li>功能二</li>&ndash;&gt;-->
+<!--&lt;!&ndash;						<li>功能三</li>&ndash;&gt;-->
+<!--&lt;!&ndash;						<li>功能四</li>&ndash;&gt;-->
+<!--&lt;!&ndash;					</ul>&ndash;&gt;-->
+<!--&lt;!&ndash;				</div>&ndash;&gt;-->
+<!--			</div>-->
+<!--			&lt;!&ndash; 搜索框 &ndash;&gt;-->
+<!--			<div class="search1">-->
+<!--				<div class="input1">-->
+<!--					<input type="text" placeholder="            搜索高校" id="input2"/>-->
 <!--				</div>-->
-			</div>
-			<!-- 搜索框 -->
-			<div class="search1">
-				<div class="input1">
-					<input type="text" placeholder="            搜索高校" id="input2"/>
-				</div>
-				 <div class="button1">
-				   <button onclick="SearchFn()">搜索</button>
-				</div>
-			</div>
-			<!-- 其它信息显示区域 -->
-			<div class="others1">
+<!--				 <div class="button1">-->
+<!--				   <button onclick="SearchFn()">搜索</button>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--			&lt;!&ndash; 其它信息显示区域 &ndash;&gt;-->
+<!--			<div class="others1">-->
 
-			</div>
-		</div>
-
+<!--			</div>-->
+<!--		</div>-->
+<nav class="navbar navbar-light " style="background-color: #ebefeb;height: 70px">
+	<a class="navbar-brand" style="font-family: STXingkai;font-size: 50px;">成都高校查询系统</a>
+	<div style="margin-left: 50%">
+		<a class="btn btn-info"  style="margin-left: 10%;margin-top: 10px;float: left" href="/map1">去列表查找高校</a>
+		<form class="form-inline" style="float: left;margin-top: 10px;margin-left: 20px">
+			<input id="input2" class="form-control mr-sm-2" type="search" placeholder="查找学校" aria-label="Search" >
+			<button class="btn btn-success" onclick="SearchFn()" type="button">Search</button>
+		</form>
+	</div>
+</nav>
 
 		<!-- 中间内容 -->
 		<div class="bodys">
@@ -63,7 +75,7 @@
 		<!-- 尾部 -->
 		<div class="footer">
 
-		</div>
+		</div></body>
 	<script>
 
 		var lnglat ;
@@ -202,5 +214,5 @@
 
 		});
 	</script>
-	</body>
+
 </html>
