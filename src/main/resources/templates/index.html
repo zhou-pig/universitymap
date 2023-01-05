@@ -48,23 +48,24 @@
 			</div>
 			<!-- 其它信息显示区域 -->
 			<div class="others1">
-				
+
 			</div>
 		</div>
-		
-		
+
+
 		<!-- 中间内容 -->
 		<div class="bodys">
 			<div id="map-container">
 
 			</div>
 		</div>
-		
+
 		<!-- 尾部 -->
 		<div class="footer">
-			
+
 		</div>
 	<script>
+
 		var lnglat ;
 
 		var map = new AMap.Map('map-container',{
@@ -171,7 +172,35 @@
 			map.addControl(new AMap.Geolocation());
 		});
 
+		//使用ready函数
+		$(function () {
+			address=window.localStorage.getItem("address");
+			if (address){
+				window.localStorage.setItem("address","");
+				AMap.plugin('AMap.Geocoder', function() {
+					var geocoder = new AMap.Geocoder({
+						// city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
+						city: '全国'
+					})
+					geocoder.getLocation(address, function(status, result) {
+						if (status === 'complete' && result.info === 'OK') {
+							// result中对应详细地理坐标信息
+							console.log(result)
+							var positionLnglat = [result.geocodes[0].location.lng,result.geocodes[0].location.lat]
+							// console.log("(((((((((((((((")
+							// console.log(positionLnglat)
+							var marker = new AMap.Marker({
+								position:positionLnglat
+							})
+							map.setCenter(positionLnglat)
+							map.setZoom(16)
+							map.add(marker)
+						}
+					})
+				})
+			}
 
+		});
 	</script>
 	</body>
 </html>
