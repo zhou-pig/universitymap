@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+        #container {
+            width: 900px;
+            height: 900px;
+            z-index: 1;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+        }
+        #panel {
+            width: 300px;
+            height: auto;
+            z-index: 2;
+            position: absolute;
+            left: 1px;
+            top: 1px;
+        }
+    </style>
+    <script src="../static/js/jquery-3.6.3.min.js"></script>
+    <script type="text/javascript">
+        window._AMapSecurityConfig = {
+            securityJsCode: 'eae290a91b1076286f50247b68d65cd7',
+        }
+    </script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=84def4eed557d3cf453fb0447c8955ce">
+    </script>
+</head>
+<body>
+<div id="panel">
+    <button  onclick=window.location.href='/map1' style="background-color: #5cb85c; font-weight: bold;font-size: 20px">返回</button>
+</div>
+<div id="container"></div>
+<script>
+    var map = new AMap.Map('container', {});
+    var result2;
+    let endLngLat
+    result2=localStorage.getItem("address");
+    AMap.plugin('AMap.Geolocation', function() {
+        var geolocation = new AMap.Geolocation({
+            // 是否使用高精度定位，默认：true
+            enableHighAccuracy: true,
+            // 设置定位超时时间，默认：无穷大
+            timeout: 10000,
+            // 定位按钮的停靠位置的偏移量
+            offset: [0, 0],
+            //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            zoomToAccuracy: true,
+            //  定位按钮的排放位置,  RB表示右下
+            position: 'RB'
+        })
+        //1.2 调用getCurrentPosition方法获得定位信息
+        geolocation.getCurrentPosition(function (status, result) {
+            /*
+              status：定位是否成功，如果定位成功它的值便是complete，否则便是error
+              result：定位的具体
+           */
+            if (status === 'complete') {
+                console.log("----------------")
+                console.log(result)
+                console.log(result.position.lng, result.position.lat)
+                map.setCenter([result.position.lng, result.position.lat])
+                var marker = new AMap.Marker({
+                    position: [result.position.lng, result.position.lat]
+                })
+                map.add(marker)
+                DingWing(result)
+
+            } else {
+                console.log("error")
+            }
+        })
+        //-------驾车实现路线规划
+        function DingWing(result){
+            AMap.plugin('AMap.Transfer',function() {
+                var transfer = new AMap.Transfer({
+                    //LEAST_TIME，LEAST_FEE, LEAST_DISTANCE,REAL_TRAFFIC
+                    policy: AMap.TransferPolicy.LEAST_TRANSFER, //规划策略（按照最短时间、最短路线、交通拥挤）
+                    map: map, //该配置项可以用于将规划的路线显示到对应的地图上
+                    city: '成都',
+                    panel: "panel", //该配置项可以用于将路线规划结果自动显示到面板上，该配置项的值为：对应div盒子的id值
+                })
+                var startLngLat = [result.position.lng, result.position.lat]
+                ZhongDian();
+                setTimeout(() => {
+                    console.log("endLngLat1=========>",endLngLat);
+                    transfer.search(startLngLat,endLngLat,function(status, result){
+                        console.log(status)
+                        console.log(result)
+                    })
+                }, 2000);
+
+
+            })
+        }
+        function ZhongDian() {
+
+            AMap.plugin('AMap.Geocoder', function() {
+                var geocoder = new AMap.Geocoder({
+                    // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
+                    city: '成都'
+                })
+                geocoder.getLocation(result2, function(status, result) {
+                    if (status === 'complete' && result.info === 'OK') {
+                        // result中对应详细地理坐标信息
+                        let res = [result.geocodes[0].location.toString().split(',')]
+                        endLngLat = res[0];
+                    }
+                })
+
+            })
+        }
+    })
+</script>
+</body>
+</html>

@@ -44,6 +44,10 @@ public class MapController {
         return "map2.html";
     }
 
+    //路线规划页面
+    @GetMapping("/query3")
+    public String luxian(){ return "query.html";}
+
     //查询高校
     @GetMapping("/query")
     @ResponseBody
