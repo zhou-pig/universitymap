@@ -2,6 +2,7 @@ package com.train.universitymap.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.train.universitymap.entity.University;
+import com.train.universitymap.entity.User;
 import com.train.universitymap.service.UniversityService;
 import com.train.universitymap.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,4 +59,10 @@ public class MapController {
         return universityService.queryUniversityById(id);
     }
 
+    @PostMapping ("/register")
+    @ResponseBody
+    public int registerShow(String account,String password){
+
+        return userService.addUser(account,password);
+    }
 }

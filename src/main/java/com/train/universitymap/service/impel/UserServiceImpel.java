@@ -22,5 +22,14 @@ public class UserServiceImpel extends ServiceImpl<UserMapper,User> implements Us
         return 2;
     }
 
+    @Override
+    public int addUser(String account, String password) {
+
+        if (userMapper.addUser(account, password)!=0){
+            return 1;
+        }
+        return 2;
+    }
+
 
 }
