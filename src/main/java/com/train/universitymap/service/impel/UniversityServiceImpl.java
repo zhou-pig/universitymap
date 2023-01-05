@@ -25,7 +25,7 @@ public class UniversityServiceImpl extends ServiceImpl<UniversityMapper,Universi
     public Page<University> queryUniversityByName(Integer pageNumber,String name) {
         QueryWrapper<University> queryWrapper=new QueryWrapper<>();
         queryWrapper.like("name",name);
-        Page<University> page=new Page<>(pageNumber,5);
+        Page<University> page=new Page<>(pageNumber,8);
         universityMapper.selectPage(page,queryWrapper);
         return page;
     }

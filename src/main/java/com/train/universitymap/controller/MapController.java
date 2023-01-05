@@ -62,7 +62,6 @@ public class MapController {
     @PostMapping ("/register")
     @ResponseBody
     public int registerShow(String account,String password){
-
         return userService.addUser(account,password);
     }
 }
