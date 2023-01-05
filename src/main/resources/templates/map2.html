@@ -38,7 +38,12 @@
       /*一开始将div3模态框隐藏起来*/
       display: none;
     }
-
+    li{
+      font-size: 20px;
+    }
+    th,td{
+      font-size: 18px;
+    }
     .modal-body-div {
       height: 380px;
     }
@@ -182,7 +187,7 @@
               '           <td>'+data[i].name+'</td>\n' +
               '           <td>'+data[i].level+'</td>\n' +
               '           <td>'+data[i].address+'</td>\n' +
-              '           <td><button onclick="infoClickFn('+data[i].id+')">详情</button></td>\n' +
+              '           <td><button onclick="infoClickFn('+data[i].id+')" type="button" class="btn btn-default">详情</button></td>\n' +
               '       </tr>'
     }
     $(".table-content").html(html);

@@ -158,7 +158,6 @@
 			});
 		})
 
-
 		AMap.plugin([
 			'AMap.ToolBar',
 			'AMap.Scale',
@@ -199,8 +198,6 @@
 							// result中对应详细地理坐标信息
 							console.log(result)
 							var positionLnglat = [result.geocodes[0].location.lng,result.geocodes[0].location.lat]
-							// console.log("(((((((((((((((")
-							// console.log(positionLnglat)
 							var marker = new AMap.Marker({
 								position:positionLnglat
 							})
