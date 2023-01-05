@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <title>Title</title>
   <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/index.css">
   <script src="js/jquery-3.6.3.min.js"></script>
   <style>
     .div1 {
@@ -27,11 +28,11 @@
 
     .div3 {
       z-index: 3;
-      width: 600px;
-      height: 500px;
+      width: 800px;
+      height: 700px;
       position: absolute;
       left: 500px;
-      top: 130px;
+      top: 100px;
       /*盒子模型的边框设置*/
       /*border: 1px solid black;*/
       /*一开始将div3模态框隐藏起来*/
@@ -52,6 +53,30 @@
   </script>
 </head>
 <body>
+<div class="header">
+  <!-- logo信息 -->
+  <div class="logo1">
+    <!--				<div class="img1"></div>-->
+    成都高校查询系统
+  </div>
+  <!-- 功能选项卡 -->
+  <div class="function1">
+    <a href="/index">去地图查找高校</a>
+  </div>
+  <!-- 搜索框 -->
+  <div class="search1">
+    <div class="input1">
+      <input type="text" placeholder="            输入高校名称" id="input2"/>
+    </div>
+    <div class="button1">
+      <button onclick="pageData(1)">搜索</button>
+    </div>
+  </div>
+  <!-- 其它信息显示区域 -->
+  <div class="others1">
+
+  </div>
+</div>
 
 <!--页面的第一层-->
 <div class="div1">
@@ -103,22 +128,24 @@
       <span style="font-size: 18px;color: green;font-weight: bold" >简介：</span><span style="font-size: 18px;font-weight: bold" id="university_introduction"></span>
     </div>
     <div>
-      <!--            制作地图容器-->
-      <div id="map-container" style="width: 560px;height: 240px;">
-
+      <!--            图片-->
+      <div id="img_div" style="width: 560px;height: 240px;margin-top:20px;float: left">
+        <img src="" id="img_url" style="width: 80%" />
+      </div>
+      <div>
+        <button  onclick="goHere()" style="background-color: #5cb85c; margin-top: 40px; border-radius: 100px;width: 140px;height: 140px;font-weight: bold;font-size: 40px">Go</button>
       </div>
     </div>
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="closeFn()">关闭</button>
+<!--    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="closeFn()">关闭</button>-->
     <!--        <button type="button" class="btn btn-primary">Save changes</button>-->
   </div>
 </div>
 <script>
   //使用ready函数
   $(function () {
-    console.log("finish")
     pageData(1)
   });
 
@@ -127,7 +154,7 @@
     $.ajax({
       url:'/query',
       type:'get',
-      data:{pageNumber:page,name:""},
+      data:{pageNumber:page,name:$("#input2").val()},
       dataType:'json',
       success:function (data) {
         console.log(data)
@@ -139,10 +166,6 @@
 
   //用于将数据给渲染到表格中
   function tableDataShowFn(data) {
-    /*
-       在js中实现数据渲染到html字符串中
-     */
-    console.log(data)
     var html = '';   //html标签字符串
     for (var i = 0; i < data.length; i++) {
       html += '  <tr>\n' +
@@ -158,7 +181,7 @@
 
   //用于将数据渲染到分页标签里面
   function pagInationFn(data) {
-    console.log("=======================");
+    console.log("渲染分页标签");
     console.log(data);
     var current=data.current;
     //下一页但是页码
@@ -175,10 +198,6 @@
     //定义html标签字符串-----用于将数据渲染到分页里面
     var html = '';
     //1、渲染上一页
-    /*
-         先判断一下是否有上一页，如果有则可以跳转
-         否则就禁止跳转
-     */
     if (hasPreviousPage){
       html += ' <li>\n' +
               '            <a onclick="pageData('+prePage+')" href="#" aria-label="Previous">\n' +
@@ -197,10 +216,6 @@
       html += '<li><a onclick="pageData('+i+')" href="#">'+i+'</a></li>'
     }
     //3、渲染下一页
-    /*
-         先判断一下是否有下一页，如果有则可以跳转
-         否则就禁止跳转
-     */
     if (hasNextPage){
       html += '<li>\n' +
               '            <a onclick="pageData('+nextPage+')" href="#" aria-label="Next">\n' +
@@ -219,19 +234,6 @@
 
   //表格详情按钮点击事件函数
   function infoClickFn(id) {
-    // alert(id)
-    /*
-        我们这里拿到id以后就可以根据id查询出该条数据的信息
-        问题：为什么要再请求查询数据
-           答：为了保证数据的准确
-        我们接下来就可以将查询到的数据进行其它业务开啊发
-     */
-    /*
-         任务：
-            当用户点击详情按钮的时候就把当前数据的id拿到
-            并根据从数据库中拿取数据
-            最后将数据显示到模态框里面
-     */
     //1、弹出模态框
     $(".div2").show(); //用于将div2显示出来
     $(".div3").show(); //用于将div3显示出来
@@ -253,14 +255,19 @@
         $("#university_level").text(data.level);
         $("#university_address").text(data.address);
         $("#university_introduction").text(data.introduction);
+        $("#img_url").attr("src",data.imgUrl);
       }
     })
+  }
+  //去指定高校
+  function goHere(){
+    address=$("#university_name").text();
+    window.location.href="index?address?"+$("#university_name").text();
+    window.localStorage.setItem("address",address);
   }
 
   //将经纬度给编码成详细地址信息
   function locationByCodeFn(lng,lat){
-    // console.log("----------------------");
-    //  console.log(lng,lat);
     AMap.plugin('AMap.Geocoder', function() {
       var geocoder = new AMap.Geocoder({
         // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode

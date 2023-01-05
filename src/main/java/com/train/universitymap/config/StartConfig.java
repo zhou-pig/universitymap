@@ -12,14 +12,14 @@ public class StartConfig implements CommandLineRunner {
 
     @Value("${loginurl}")
     private String loginUrl;
-    @Value("${edgepath}")
-    private String edgePath;
+    @Value("${chormpath}")
+    private String chormpath;
 
     @Override
     public void run(String... args) throws Exception {
 
         Runtime runtime = Runtime.getRuntime();
-        String cmd = edgePath + " " + loginUrl;
+        String cmd = chormpath + " " + loginUrl;
         runtime.exec(cmd);
 
     }

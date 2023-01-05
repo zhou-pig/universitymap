@@ -164,8 +164,6 @@ function loginFn() {
 		data:{account:account,password:password},
 		dataType:'json',
 		success:function (data) {
-            // console.log("====================");
-            // console.log(data)
 			if (data == 1){
 				//登录成功就跳转到主页面
 				location.href='/index';
