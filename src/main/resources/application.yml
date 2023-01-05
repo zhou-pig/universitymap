@@ -26,6 +26,6 @@ server:
 
 
 loginurl: http://localhost:8080/login
-chormpath: D:\\Google\\Chrome\\Application\\chrome_proxy.exe
+chormpath: C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
 edgepath: C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe
 
