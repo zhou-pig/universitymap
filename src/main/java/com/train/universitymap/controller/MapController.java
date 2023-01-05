@@ -48,6 +48,7 @@ public class MapController {
     @GetMapping("/query3")
     public String luxian(){ return "query.html";}
 
+
     //查询高校
     @GetMapping("/query")
     @ResponseBody
